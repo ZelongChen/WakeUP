@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             // Make this higher or lower according to how much
             // motion you want to detect
             if(mAccel > 3){
-
-                Toast.makeText(this, "phone shaked", Toast.LENGTH_SHORT).show();
+                // TODO do something like closing alarm and sending message to cafe machine
+                Toast.makeText(this, "phone shaked, I wake up", Toast.LENGTH_SHORT).show();
             }
         }
 
