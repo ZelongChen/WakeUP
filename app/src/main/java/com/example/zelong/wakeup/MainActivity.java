@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int[] tabIcons = {
             R.drawable.ic_tab_weather,
+            R.drawable.ic_tab_alarm,
             R.drawable.ic_tab_agenda,
             R.drawable.ic_tab_news,
             R.drawable.ic_tab_control
@@ -48,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
     }
 
     private void setupViewPager(ViewPager viewPager) {
