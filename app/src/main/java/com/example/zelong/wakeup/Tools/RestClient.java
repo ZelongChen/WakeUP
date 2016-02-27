@@ -20,7 +20,7 @@ public class RestClient {
     // // TODO: Add url for each module
     private static final String AGENDA_BASE_URL = "";
     private static final String NEWS_BASE_URL = "";
-    private static final String WEATHER_BASE_URL = "";
+    private static final String WEATHER_BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static final String CONTROL_BASE_URL = "";
 
     private static AsyncHttpClient client = new AsyncHttpClient();

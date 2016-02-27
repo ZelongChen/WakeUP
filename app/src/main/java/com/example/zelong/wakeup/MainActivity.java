@@ -1,5 +1,6 @@
 package com.example.zelong.wakeup;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.TabLayout;
@@ -7,8 +8,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.EditText;
+
+import com.example.zelong.wakeup.Tools.CityPreference;
 
 import java.util.ArrayList;
 import java.util.List;
