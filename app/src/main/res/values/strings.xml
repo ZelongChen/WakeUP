@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WakeUp</string>
     <string name="title_activity_main">Wake UP</string>
+    <string name="change_city">Change city</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
