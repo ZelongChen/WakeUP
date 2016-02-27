@@ -8,8 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zelong.wakeup.Tools.RestClient;
+
 
 public class NewsFragment extends Fragment {
+
+    final static String CONSUMER_KEY = "JUwUAjWimjkSQGUHbcf8hKMvz";
+    final static String CONSUMER_SECRET = "PSO4jVUCbCCnXVktRFKBjUzSEuMZW8QGmfMha8yKKwgcvHp4lw";
+    final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";
+    final static String TwitterStreamURL = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=";
 
     public NewsFragment() {
         // Required empty public constructor
@@ -26,4 +33,5 @@ public class NewsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news, container, false);
     }
+    
 }
