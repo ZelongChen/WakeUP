@@ -13,12 +13,16 @@ import android.widget.Toast;
 
 import com.example.zelong.wakeup.Tools.CityPreference;
 import com.example.zelong.wakeup.Tools.RemoteFetch;
+import com.example.zelong.wakeup.Tools.RestClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class WeatherFragment extends Fragment {
@@ -51,40 +55,36 @@ public class WeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
-        cityField = (TextView)rootView.findViewById(R.id.city_field);
-        updatedField = (TextView)rootView.findViewById(R.id.updated_field);
-        detailsField = (TextView)rootView.findViewById(R.id.details_field);
-        currentTemperatureField = (TextView)rootView.findViewById(R.id.current_temperature_field);
-        weatherIcon = (TextView)rootView.findViewById(R.id.weather_icon);
+        cityField = (TextView) rootView.findViewById(R.id.city_field);
+        updatedField = (TextView) rootView.findViewById(R.id.updated_field);
+        detailsField = (TextView) rootView.findViewById(R.id.details_field);
+        currentTemperatureField = (TextView) rootView.findViewById(R.id.current_temperature_field);
+        weatherIcon = (TextView) rootView.findViewById(R.id.weather_icon);
 
         weatherIcon.setTypeface(weatherFont);
         return rootView;
     }
 
-    private void updateWeatherData(final String city){
-        new Thread(){
-            public void run(){
-                final JSONObject json = RemoteFetch.getJSON(getActivity(), city);
-                if(json == null){
-                    handler.post(new Runnable(){
-                        public void run(){
-                            Toast.makeText(getActivity(),
-                                    getActivity().getString(R.string.place_not_found),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    handler.post(new Runnable(){
-                        public void run(){
-                            renderWeather(json);
-                        }
-                    });
-                }
+    private void updateWeatherData(final String city) {
+
+        String relativeURL = city + "&appid=" + getString(R.string.open_weather_maps_app_id);
+        RestClient.get(RestClient.Modules.WEATHER, relativeURL, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                renderWeather(response);
             }
-        }.start();
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getActivity(),
+                        getActivity().getString(R.string.place_not_found),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-    private void renderWeather(JSONObject json){
+    private void renderWeather(JSONObject json) {
         try {
             cityField.setText(json.getString("name").toUpperCase(Locale.US) +
                     ", " +
@@ -98,44 +98,50 @@ public class WeatherFragment extends Fragment {
                             "\n" + "Pressure: " + main.getString("pressure") + " hPa");
 
             currentTemperatureField.setText(
-                    String.format("%.2f", main.getDouble("temp"))+ " ℃");
+                    String.format("%.2f", main.getDouble("temp")) + " ℃");
 
             DateFormat df = DateFormat.getDateTimeInstance();
-            String updatedOn = df.format(new Date(json.getLong("dt")*1000));
+            String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
             updatedField.setText("Last update: " + updatedOn);
 
             setWeatherIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
                     json.getJSONObject("sys").getLong("sunset") * 1000);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
         }
     }
 
-    private void setWeatherIcon(int actualId, long sunrise, long sunset){
+    private void setWeatherIcon(int actualId, long sunrise, long sunset) {
         int id = actualId / 100;
         String icon = "";
-        if(actualId == 800){
+        if (actualId == 800) {
             long currentTime = new Date().getTime();
-            if(currentTime>=sunrise && currentTime<sunset) {
+            if (currentTime >= sunrise && currentTime < sunset) {
                 icon = getActivity().getString(R.string.weather_sunny);
             } else {
                 icon = getActivity().getString(R.string.weather_clear_night);
             }
         } else {
-            switch(id) {
-                case 2 : icon = getActivity().getString(R.string.weather_thunder);
+            switch (id) {
+                case 2:
+                    icon = getActivity().getString(R.string.weather_thunder);
                     break;
-                case 3 : icon = getActivity().getString(R.string.weather_drizzle);
+                case 3:
+                    icon = getActivity().getString(R.string.weather_drizzle);
                     break;
-                case 7 : icon = getActivity().getString(R.string.weather_foggy);
+                case 7:
+                    icon = getActivity().getString(R.string.weather_foggy);
                     break;
-                case 8 : icon = getActivity().getString(R.string.weather_cloudy);
+                case 8:
+                    icon = getActivity().getString(R.string.weather_cloudy);
                     break;
-                case 6 : icon = getActivity().getString(R.string.weather_snowy);
+                case 6:
+                    icon = getActivity().getString(R.string.weather_snowy);
                     break;
-                case 5 : icon = getActivity().getString(R.string.weather_rainy);
+                case 5:
+                    icon = getActivity().getString(R.string.weather_rainy);
                     break;
             }
         }
