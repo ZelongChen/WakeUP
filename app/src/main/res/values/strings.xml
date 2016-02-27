@@ -1,7 +1,23 @@
 <resources>
     <string name="app_name">WakeUp</string>
     <string name="title_activity_main">Wake UP</string>
+    <string name="change_city">Change city</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Put your own APP ID here -->
+    <string name="open_weather_maps_app_id">13f481513624dd8c4f9bbdb2f15a1cc6</string>
+
+    <string name="weather_sunny">&#xf00d;</string>
+    <string name="weather_clear_night">&#xf02e;</string>
+
+    <string name="weather_foggy">&#xf014;</string>
+    <string name="weather_cloudy">&#xf013;</string>
+    <string name="weather_rainy">&#xf019;</string>
+    <string name="weather_snowy">&#xf01b;</string>
+    <string name="weather_thunder">&#xf01e;</string>
+    <string name="weather_drizzle">&#xf01c;</string>
+
+    <string name="place_not_found">Sorry, no weather data found.</string>
 </resources>
