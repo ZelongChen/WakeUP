@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new WeatherFragment(), "Weather");
+        adapter.addFragment(new AlarmFragment(), "Alarm");
         adapter.addFragment(new AgendaFragment(), "Agenda");
         adapter.addFragment(new NewsFragment(), "News");
         adapter.addFragment(new ControlFragment(), "Control");
