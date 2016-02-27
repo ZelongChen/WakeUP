@@ -15,9 +15,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         // TODO Auto-generated method stub
         Toast.makeText(context, "Alarm received!", Toast.LENGTH_LONG).show();
         Intent i = new Intent();
-        i.setClassName("com.example.zelong.wakeup", "com.example.zelong.wakeup.MainActivity");
+        i.setClassName("com.example.zelong.wakeup", "com.example.zelong.wakeup.AlertActivity");
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
+
+
 
     }
 
