@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zelong.wakeup.Tools.CityPreference;
-import com.example.zelong.wakeup.Tools.RemoteFetch;
 import com.example.zelong.wakeup.Tools.RestClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -47,7 +46,6 @@ public class WeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weathericons.ttf");
-        updateWeatherData(new CityPreference(getActivity()).getCity());
     }
 
     @Override
@@ -65,9 +63,15 @@ public class WeatherFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateWeatherData(new CityPreference(getActivity()).getCity());
+    }
+
     private void updateWeatherData(final String city) {
 
-        String relativeURL = city + "&appid=" + getString(R.string.open_weather_maps_app_id);
+        String relativeURL = city + "&units=metric&appid=" + getString(R.string.open_weather_maps_app_id);
         RestClient.get(RestClient.Modules.WEATHER, relativeURL, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
