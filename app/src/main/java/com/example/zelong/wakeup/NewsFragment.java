@@ -72,10 +72,35 @@ public class NewsFragment extends Fragment {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showDeleteDialog(tags[position]);
+                return true;
+            }
+        });
+
 
         return view;
     }
 
+    private void showDeleteDialog(final String hashtag) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Do you want to delete it?");
+        builder.setMessage(hashtag);
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                preference.removeHashTag(hashtag);
+                updateTags();
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
+            }
+        });
+        builder.show();
+
+    }
     private void showInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add new hashtag");

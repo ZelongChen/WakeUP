@@ -33,4 +33,10 @@ public class HashTagPreference {
         hashtags.add(hashtag);
         setHashTags(hashtags);
     }
+
+    public void removeHashTag(String hashtag) {
+        Set<String> hashtags = new HashSet<String>(getHashTags());
+        hashtags.remove(hashtag);
+        setHashTags(hashtags);
+    }
 }
