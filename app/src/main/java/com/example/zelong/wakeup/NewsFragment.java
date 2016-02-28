@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.zelong.wakeup.Tools.HashTagPreference;
 import com.twitter.sdk.android.tweetui.SearchTimeline;
@@ -110,10 +111,15 @@ public class NewsFragment extends Fragment {
         builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                preference.addHashTag(input.getText().toString());
-                updateTags();
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tags);
-                listView.setAdapter(adapter);
+                String inputString = input.getText().toString();
+                if (inputString.trim().length() > 0) {
+                    preference.addHashTag(inputString);
+                    updateTags();
+                    adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tags);
+                    listView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getActivity(), "HashTag cannot be empty", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         builder.show();
