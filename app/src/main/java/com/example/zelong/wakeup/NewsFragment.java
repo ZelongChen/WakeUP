@@ -78,7 +78,7 @@ public class NewsFragment extends Fragment {
 
     private void showInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Change city");
+        builder.setTitle("Add new hashtag");
         final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
@@ -87,8 +87,8 @@ public class NewsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 preference.addHashTag(input.getText().toString());
                 updateTags();
-                listView.invalidateViews();
                 adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
             }
         });
         builder.show();

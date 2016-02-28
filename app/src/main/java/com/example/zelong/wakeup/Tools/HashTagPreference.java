@@ -12,10 +12,8 @@ import java.util.Set;
 public class HashTagPreference {
 
     SharedPreferences prefs;
-    private Activity activity;
     Set<String> defaultHashTags = new HashSet<>();
     public HashTagPreference(Activity activity){
-        this.activity = activity;
         prefs = activity.getPreferences(Activity.MODE_PRIVATE);
         defaultHashTags.add(new CityPreference(activity).getCity());
     }
