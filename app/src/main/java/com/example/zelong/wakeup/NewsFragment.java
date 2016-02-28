@@ -94,7 +94,7 @@ public class NewsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 preference.removeHashTag(hashtag);
                 updateTags();
-                adapter.notifyDataSetChanged();
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tags);
                 listView.setAdapter(adapter);
             }
         });
@@ -112,7 +112,7 @@ public class NewsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 preference.addHashTag(input.getText().toString());
                 updateTags();
-                adapter.notifyDataSetChanged();
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tags);
                 listView.setAdapter(adapter);
             }
         });
