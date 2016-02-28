@@ -29,8 +29,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "JUwUAjWimjkSQGUHbcf8hKMvz";
-    private static final String TWITTER_SECRET = "PSO4jVUCbCCnXVktRFKBjUzSEuMZW8QGmfMha8yKKwgcvHp4lw";
+    private static final String TWITTER_KEY = "CW6F1pRSUI6zQcCdvgwioQaN3";
+    private static final String TWITTER_SECRET = "EAwNNV4moTND4e8TMCejYLIGhQPn1yy1Kr7VybkRaZcWXds9Cs";
 
 
     private Toolbar toolbar;
