@@ -6,13 +6,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.zelong.wakeup.NewsFragment">
 
-    <TextView android:id="@id/android:empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Add new hashtag"/>
-
-
     <ListView android:id="@+id/hashtag_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

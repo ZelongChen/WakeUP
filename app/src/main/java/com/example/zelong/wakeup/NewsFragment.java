@@ -31,6 +31,7 @@ public class NewsFragment extends Fragment {
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private String[] tags;
+    private HashTagPreference preference;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -40,6 +41,7 @@ public class NewsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+        preference = new HashTagPreference(getActivity());
     }
 
     @Override
@@ -83,8 +85,9 @@ public class NewsFragment extends Fragment {
         builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new HashTagPreference(getActivity()).addHashTag(input.getText().toString());
+                preference.addHashTag(input.getText().toString());
                 updateTags();
+                listView.invalidateViews();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -92,7 +95,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void updateTags() {
-        Set<String> hashtags = new HashTagPreference(getActivity()).getHashTags();
+        Set<String> hashtags = preference.getHashTags();
         tags = hashtags.toArray(new String[hashtags.size()]);
     }
 

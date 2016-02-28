@@ -31,7 +31,7 @@ public class HashTagPreference {
     }
 
     public void addHashTag(String hashtag) {
-        Set<String> hashtags = getHashTags();
+        Set<String> hashtags = new HashSet<String>(getHashTags());
         hashtags.add(hashtag);
         setHashTags(hashtags);
     }
