@@ -25,6 +25,9 @@
             android:process=":remote" />
 
         <activity android:name=".AlertActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="985dc2ff5683cfa582c27adf076bbcd1d87f2021" />
     </application>
 
 </manifest>
