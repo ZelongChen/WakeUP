@@ -44,4 +44,12 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.12.1@aar') {
         transitive = true;
     }
+    compile('com.google.api-client:google-api-client-android:1.17.0-rc') {
+        exclude group: 'com.google.android.google-play-services'
+    }
+    compile('com.google.apis:google-api-services-calendar:v3-rev125-1.20.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-base:8.4.0'
 }
