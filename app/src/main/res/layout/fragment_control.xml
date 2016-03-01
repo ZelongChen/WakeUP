@@ -4,11 +4,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.zelong.wakeup.ControlFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:id="@+id/button_light_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/hello_blank_fragment" />
+        android:text="On"/>
 
+    <Button
+        android:id="@+id/button_light_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_light_on"
+        android:layout_centerHorizontal="true"
+        android:text="Off"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
