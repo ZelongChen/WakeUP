@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,14 +40,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class AgendaFragment extends Fragment {
 
     GoogleAccountCredential mCredential;
+    private static final String SEPARATOR = "&";
+    private static final String DATE_REGEX = "(.*)T([0-9]{2,2}:[0-9]{2,2}).*";
+    private static Pattern PATTERN;
+    private String CLS_NAME = "AgendaFragment";
+
+    private List<String> cachedEvents;
 
     private TextView mOutputText;
     ProgressDialog mProgress;
+    ListView agendaListView;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -71,6 +82,8 @@ public class AgendaFragment extends Fragment {
 
         mProgress = new ProgressDialog(getActivity());
         mProgress.setMessage("Calling Google Calendar API ...");
+
+        PATTERN = Pattern.compile(DATE_REGEX);
     }
 
     @Override
@@ -79,6 +92,7 @@ public class AgendaFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
         mOutputText = (TextView) rootView.findViewById(R.id.tv_calendar);
+        agendaListView = (ListView) rootView.findViewById(R.id.agenda_list);
         return rootView;
     }
 
@@ -90,6 +104,13 @@ public class AgendaFragment extends Fragment {
 
     private void updateCalendar() {
         Log.i("AgendaFragment", "updateCalendar");
+
+        if (cachedEvents != null) {
+            AgendaItemsAdapter adapter = new AgendaItemsAdapter(cachedEvents);
+            agendaListView.setAdapter(adapter);
+            return;
+        }
+
         if (isGooglePlayServicesAvailable()) {
             refreshResults();
         } else {
@@ -108,7 +129,6 @@ public class AgendaFragment extends Fragment {
             chooseAccount();
         } else {
             if (isDeviceOnline()) {
-                mOutputText.setText("Fetching data, please wait...");
                 new MakeRequestTask(mCredential).execute();
             } else {
                 mOutputText.setText("No network connection available.");
@@ -285,14 +305,14 @@ public class AgendaFragment extends Fragment {
                     start = event.getStart().getDate();
                 }
                 eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
+                        String.format("%s%s%s", event.getSummary(), SEPARATOR, start));
             }
+            cachedEvents = eventStrings;
             return eventStrings;
         }
 
         @Override
         protected void onPreExecute() {
-            mOutputText.setText("");
             mProgress.show();
         }
 
@@ -301,9 +321,11 @@ public class AgendaFragment extends Fragment {
             mProgress.hide();
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
+                Log.w(CLS_NAME, "No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
-                mOutputText.setText(TextUtils.join("\n", output));
+                Log.w(CLS_NAME, "Error:" + TextUtils.join("\n", output));
+                AgendaItemsAdapter adapter = new AgendaItemsAdapter(output);
+                agendaListView.setAdapter(adapter);
             }
         }
 
@@ -322,10 +344,63 @@ public class AgendaFragment extends Fragment {
                 } else {
                     mOutputText.setText("The following error occurred:\n"
                             + mLastError.getMessage());
+                    Log.w(CLS_NAME, "Error:" + mLastError.getMessage());
                 }
             } else {
                 mOutputText.setText("Request cancelled.");
             }
+        }
+    }
+
+    class AgendaItemsAdapter extends BaseAdapter {
+
+        private List<String> items;
+        public AgendaItemsAdapter(List<String>  items) {
+            super();
+            this.items = items;
+        }
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Activity activity = getActivity();
+            View view = activity.getLayoutInflater().inflate(R.layout.agenda_item, parent, false);
+            TextView titleView = (TextView)view.findViewById(R.id.agenda_title);
+            TextView timeView = (TextView)view.findViewById(R.id.agenda_time);
+            String it = items.get(position);
+            Log.i(CLS_NAME, it);
+            String [] s = it.split("\\" + SEPARATOR);
+            Log.i(CLS_NAME, s[0]);
+
+            if (s.length > 0) {
+                titleView.setText(s[0]);
+            }
+
+            if (s.length > 1) {
+                Matcher m = PATTERN.matcher(s[1]);
+                if (m.matches()) {
+                    timeView.setText(m.group(1) + "  " + m.group(2));
+                }
+            } else {
+                timeView.setText("");
+            }
+
+            activity.getLayoutInflater();
+            return view;
         }
     }
 
