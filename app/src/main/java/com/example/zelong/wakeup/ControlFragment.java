@@ -61,21 +61,21 @@ public class ControlFragment extends Fragment {
         tvSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlDevice("tv", isChecked);
+                controlDevice("TV", isChecked);
             }
         });
 
         speakerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlDevice("speaker", isChecked);
+                controlViewer("viewer", isChecked);
             }
         });
 
         musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlDevice("music", isChecked);
+                controlMusic("player", isChecked);
             }
         });
 
@@ -90,6 +90,54 @@ public class ControlFragment extends Fragment {
                 json.put("state", "on");
             } else {
                 json.put("state", "off");
+            }
+            StringEntity stringEntity = new StringEntity(json.toString());
+            RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+        }catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void controlMusic(String device, boolean isChecked) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("device", device);
+            if (isChecked) {
+                json.put("state", "play");
+            } else {
+                json.put("state", "stop");
+            }
+            StringEntity stringEntity = new StringEntity(json.toString());
+            RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+        }catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void controlViewer(String device, boolean isChecked) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("device", device);
+            if (isChecked) {
+                json.put("state", "put");
+            } else {
+                json.put("state", "put");
             }
             StringEntity stringEntity = new StringEntity(json.toString());
             RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
