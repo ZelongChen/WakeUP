@@ -6,113 +6,134 @@
 
     <LinearLayout
         android:id="@+id/light_row"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_margin="30dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="30sp"
             android:text="Light : "/>
 
-        <Switch
-            android:id="@+id/light_switch"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/light_on"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
-            android:text="ON"/>
+            android:text="On"/>
+
+        <Button
+            android:id="@+id/light_off"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Off"/>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/tv_row"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:weightSum="3"
+        android:layout_margin="30dp"
         android:layout_below="@+id/light_row"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="30sp"
             android:text="TV : "/>
 
-        <Switch
-            android:id="@+id/tv_switch"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/tv_on"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
-            android:text="ON"/>
+            android:text="On"/>
+
+        <Button
+            android:id="@+id/tv_off"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Off"/>
+
     </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/speaker_row"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_margin="30dp"
         android:layout_below="@+id/tv_row"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="30sp"
-            android:text="Speaker : "/>
+            android:text="Viewer: "/>
 
-        <Switch
-            android:id="@+id/speaker_switch"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/viewer_on"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
-            android:text="ON"/>
+            android:text="On"/>
+
+        <Button
+            android:id="@+id/viewer_off"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:text="On"/>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/music_row"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_margin="30dp"
         android:layout_below="@+id/speaker_row"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="30sp"
             android:text="Music : "/>
 
-        <Switch
-            android:id="@+id/music_switch"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/music_on"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
-            android:text="ON"/>
+            android:text="On"/>
+
+        <Button
+            android:id="@+id/music_off"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Off"/>
+
     </LinearLayout>
 </RelativeLayout>

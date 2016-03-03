@@ -36,61 +36,86 @@ public class ControlFragment extends Fragment {
         setHasOptionsMenu(false);
     }
 
-    private Switch lightSwitch;
-    private Switch tvSwitch;
-    private Switch speakerSwitch;
-    private Switch musicSwitch;
+    private Button lightOn;
+    private Button lightOff;
+    private Button tvOn;
+    private Button tvOff;
+    private Button viewerOn;
+    private Button musicOn;
+    private Button musicOff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control, container, false);
-        lightSwitch = (Switch) view.findViewById(R.id.light_switch);
-        tvSwitch = (Switch) view.findViewById(R.id.tv_switch);
-        speakerSwitch = (Switch) view.findViewById(R.id.speaker_switch);
-        musicSwitch = (Switch) view.findViewById(R.id.music_switch);
 
-        lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        lightOn = (Button) view.findViewById(R.id.light_on);
+        lightOff = (Button) view.findViewById(R.id.light_off);
+        tvOn = (Button) view.findViewById(R.id.tv_on);
+        tvOff = (Button) view.findViewById(R.id.tv_off);
+        viewerOn = (Button) view.findViewById(R.id.viewer_on);
+        musicOn = (Button) view.findViewById(R.id.music_on);
+        musicOff = (Button) view.findViewById(R.id.music_off);
+
+        lightOn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlDevice("light", isChecked);
+            public void onClick(View v) {
+                controlDevice("light", "on");
             }
         });
 
-        tvSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        lightOff.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlDevice("TV", isChecked);
+            public void onClick(View v) {
+                controlDevice("light", "off");
             }
         });
 
-        speakerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        tvOn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlViewer("viewer", isChecked);
+            public void onClick(View v) {
+                controlDevice("TV", "on");
             }
         });
 
-        musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        tvOff.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                controlMusic("player", isChecked);
+            public void onClick(View v) {
+                controlDevice("TV", "off");
             }
         });
 
-        return  view;
+        viewerOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controlDevice("viewer", "put");
+            }
+        });
+
+        musicOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controlDevice("player", "play");
+            }
+        });
+
+        musicOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controlDevice("player", "stop");
+            }
+        });
+
+        return view;
     }
 
-    private void controlDevice(String device, boolean isChecked) {
+    private void controlDevice(String device, String action) {
         try {
             JSONObject json = new JSONObject();
             json.put("device", device);
-            if (isChecked) {
-                json.put("state", "on");
-            } else {
-                json.put("state", "off");
-            }
+            json.put("state", action);
+
             StringEntity stringEntity = new StringEntity(json.toString());
             RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
                 @Override
@@ -99,55 +124,7 @@ public class ControlFragment extends Fragment {
                 }
 
             });
-        }catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void controlMusic(String device, boolean isChecked) {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("device", device);
-            if (isChecked) {
-                json.put("state", "play");
-            } else {
-                json.put("state", "stop");
-            }
-            StringEntity stringEntity = new StringEntity(json.toString());
-            RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                }
-
-            });
-        }catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void controlViewer(String device, boolean isChecked) {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("device", device);
-            if (isChecked) {
-                json.put("state", "put");
-            } else {
-                json.put("state", "put");
-            }
-            StringEntity stringEntity = new StringEntity(json.toString());
-            RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                }
-
-            });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
