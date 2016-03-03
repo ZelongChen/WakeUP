@@ -9,8 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.zelong.wakeup.Tools.RestClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 public class ControlFragment extends Fragment {
@@ -43,31 +54,56 @@ public class ControlFragment extends Fragment {
         lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                controlDevice("light", isChecked);
             }
         });
 
         tvSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                controlDevice("tv", isChecked);
             }
         });
 
         speakerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                controlDevice("speaker", isChecked);
             }
         });
 
         musicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                controlDevice("music", isChecked);
             }
         });
 
         return  view;
+    }
+
+    private void controlDevice(String device, boolean isChecked) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("device", device);
+            if (isChecked) {
+                json.put("state", "on");
+            } else {
+                json.put("state", "off");
+            }
+            StringEntity stringEntity = new StringEntity(json.toString());
+            RestClient.post(RestClient.Modules.CONTROL, getActivity(), "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+        }catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
 }
