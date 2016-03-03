@@ -5,7 +5,7 @@
     tools:context="com.example.zelong.wakeup.ControlFragment">
 
     <LinearLayout
-        android:id="@+id/lamp_row"
+        android:id="@+id/light_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -15,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="Lamp : "/>
+            android:text="Light : "/>
 
         <Switch
-            android:id="@+id/lamp_switch"
+            android:id="@+id/light_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"/>
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/lamp_row"
+        android:layout_below="@+id/light_row"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="Speaker : "/>
+            android:text="Music : "/>
 
         <Switch
             android:id="@+id/music_switch"
