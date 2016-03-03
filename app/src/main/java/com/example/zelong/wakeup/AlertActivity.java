@@ -105,6 +105,7 @@ public class AlertActivity extends AppCompatActivity implements SensorEventListe
 
         AlertActivity.this.finish();
         Intent intent = new Intent(AlertActivity.this, MainActivity.class);
+        intent.putExtra("FROM_ALARM", true);
         startActivity(intent);
     }
 

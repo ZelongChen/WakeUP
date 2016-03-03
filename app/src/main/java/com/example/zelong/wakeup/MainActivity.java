@@ -17,12 +17,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.zelong.wakeup.Tools.CityPreference;
 
+import com.example.zelong.wakeup.Tools.RestClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import io.fabric.sdk.android.Fabric;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getBooleanExtra("FROM_ALARM", false)) {
+            sendBroadCast();
+        }
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -124,6 +140,34 @@ public class MainActivity extends AppCompatActivity {
             if (fragment != null && fragment instanceof NewsFragment) {
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
+        }
+    }
+
+    private void sendBroadCast() {
+        controlDevice("light", "on");
+        controlDevice("TV", "on");
+        controlDevice("player", "play");
+        controlDevice("viewer", "put");
+    }
+
+    private void controlDevice(String device, String action) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("device", device);
+            json.put("state", action);
+
+            StringEntity stringEntity = new StringEntity(json.toString());
+            RestClient.post(RestClient.Modules.CONTROL, this, "device", stringEntity, "application/json;charset=UTF-8", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 
